@@ -1,0 +1,22 @@
+#SPL query for VPN
+
+
+index=YOUR_VPN_INDEX earliest=-24h
+| eval src_ip=coalesce(src_ip, client_ip, source_ip)
+| eval account=coalesce(user, username, account)
+| eval outcome=lower(coalesce(action, result, status))
+| where isnotnull(src_ip) AND isnotnull(outcome)
+| stats count as attempts
+        count(eval(outcome="failure" OR outcome="failed" OR outcome="denied")) as failures
+        count(eval(outcome="success" OR outcome="successful" OR outcome="allowed")) as successes
+        dc(account) as distinct_accounts
+        values(account) as accounts
+        latest(_time) as last_seen
+        by src_ip
+| where failures>=5 OR distinct_accounts>=5
+| convert ctime(last_seen)
+| sort - failures
+
+
+
+Use this template only if your VPN logs have fields equivalent to src_ip, user, and action. First inspect a few raw VPN events to see whether your product records outcomes as success/failure, allowed/denied, or something else.
