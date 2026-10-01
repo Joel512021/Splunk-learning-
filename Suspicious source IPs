@@ -1,4 +1,4 @@
-# Suspicious source IPs
+# Spl Search: Suspicious source IPs
 
 index=YOUR_WINDOWS_INDEX EventCode=4625 earliest=-24h
 | eval src_ip=coalesce(Source_Network_Address, IpAddress, src_ip)
