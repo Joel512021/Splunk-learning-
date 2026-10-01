@@ -1,5 +1,5 @@
 # Spl search query
-
+# Failed logins
 index=YOUR_INDEX EventCode=4625 earliest=-24h
 | stats count as failed_attempts latest(_time) as last_attempt by host Account_Name Source_Network_Address
 | convert ctime(last_attempt)
