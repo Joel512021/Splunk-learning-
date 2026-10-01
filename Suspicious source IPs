@@ -1,6 +1,6 @@
 # Spl Search: Suspicious source IPs
 
-index=YOUR_WINDOWS_INDEX EventCode=4625 earliest=-24h
+index=YOUR_WINDOWS_INDEX EventCode=4625 earliest=-24h 
 | eval src_ip=coalesce(Source_Network_Address, IpAddress, src_ip)
 | eval account=coalesce(TargetUserName, Account_Name, user)
 | where isnotnull(src_ip) AND src_ip!="-" AND src_ip!="127.0.0.1"
