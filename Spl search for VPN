@@ -1,4 +1,4 @@
-#SPL query for VPN
+# SPL query for VPN
 
 
 index=YOUR_VPN_INDEX earliest=-24h
