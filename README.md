@@ -1,1 +1,1 @@
-# SPLUNK search query
+# Spl search query
