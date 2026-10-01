@@ -1,0 +1,13 @@
+# Suspicious source IPs
+
+index=YOUR_WINDOWS_INDEX EventCode=4625 earliest=-24h
+| eval src_ip=coalesce(Source_Network_Address, IpAddress, src_ip)
+| eval account=coalesce(TargetUserName, Account_Name, user)
+| where isnotnull(src_ip) AND src_ip!="-" AND src_ip!="127.0.0.1"
+| bin _time span=15m
+| stats count as failed_attempts dc(account) as distinct_accounts values(account) as accounts by _time src_ip
+| where failed_attempts>=10
+| sort - failed_attempts
+
+
+This looks for IPs responsible for at least 10 failed Windows logons within a 15-minute interval. Event ID 4625 is a failed logon; the threshold is a starting point to tune, not proof that an IP is malicious.
