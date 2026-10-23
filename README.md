@@ -1,3 +1,5 @@
+Search learning 
+
 # Spl search query
 # Failed logins
 index=YOUR_INDEX EventCode=4625 earliest=-24h
