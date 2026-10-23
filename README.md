@@ -1,4 +1,4 @@
-Search learning 
+Search learning
 
 # Spl search query
 # Failed logins
